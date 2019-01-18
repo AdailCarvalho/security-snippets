@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8" />
+<body>
+	<div th:fragment="bateriaFragment">
+		<section sssecurity-information="32">
+			<div id="divCadastroBateria" th:object="${bateriaDTO}">
+				<input type="hidden" id="codigo" />
+				<div class="row">
+					<div class="col-md-12">
+						<h4 class="h4-responsive customH4Adm">Cadastro de Bateria</h4>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+						<label for="fabricante" title="Fabricante">
+						<span class="requiredItem">*</span> Fabricante:</label>
+						<input type="text" id="fabricante" maxlength="30" 
+							class="form-control text-uppercase" th:field="*{nmFabricante}"/>
+					</div>
+					
+					<div class="col-md-3">
+						<label for="modelo" title="Modelo">
+						<span class="requiredItem">*</span>Modelo:</label> 
+						<input type="text" id="modelo" maxlength="30" title="Modelo" class="form-control text-uppercase" th:field="*{nmModelo}"/>
+					</div>
+					<div class="col-md-3">
+						<label for="capacidade"  title="Capacidade">
+						<span class="requiredItem">*</span>Capacidade:</label>
+						<input type="number" id="capacidade" maxlength="16" pattern="[0-9]+" step="any"
+							class="form-control " th:field="*{nuCapacidade}"/>
+					</div>
+					<div class="col-md-3">
+						<label for="autonomia"  title="Capacidade">
+						<span class="requiredItem">*</span>Autonomia:</label>
+						<input type="number" id="autonomia" maxlength="16" pattern="[0-9]+([\.,][0-9]+)?" step="any"
+							class="form-control " th:field="*{nuAutonomia}"/>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+						<label for="fator1"  title="Fator 1">
+						<span class="requiredItem">*</span>Fator 1:</label>
+						<input type="number" id="fator1" min="0.0" pattern="[0-9]+([\.,][0-9]+)?" step="any"
+							class="form-control " th:field="*{fator1}"/>
+					</div>
+					<div class="col-md-3">
+						<label for="fator2"  title="Fator 2">
+						<span class="requiredItem">*</span>Fator 2:</label>
+						<input type="number" id="fator2" min="0.0" pattern="[0-9]+([\.,][0-9]+)?" step="any"
+							class="form-control " th:field="*{fator2}"/>
+					</div>
+					<div class="col-md-3">
+						<label for="inSituacao">
+						<span class="requiredItem">*</span> Situação:</label> 
+						<select id="inSituacao" class="form-control"
+							style=" width: Inherit;" th:field="*{inSituacao}">
+							<option value=""></option>
+							<option value="A">Ativo</option>
+							<option value="I">Inativo</option>
+						</select>
+					</div>
+				</div>
+				
+				<div th:if="*{codigo != null}">
+					<div class="row">
+						<div class="col-md-12">
+							<h4 class="h4-responsive customH4Adm">Visualização das Fórmulas</h4>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+								<label for="condicoesAtuais" style="font-weight: bold;">
+									Condições atuais: 
+								</label>
+						</div>
+					</div>
+					<div class="row">
+						<br/>
+						<div class="col-md-12" style="display: inline-block;">
+							<label for="tooltip" style="font-weight: bold;">
+								Tooltip: 
+							</label>
+							<span th:text="${bateriaDTO.calcCondicoesAtuais.teFormulaCalculo}"></span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12" style="display: inline-block;">
+								<label for="tooltipAtuais" style="font-weight: bold;">
+									Sistema: 
+								</label>
+								<span th:text="${bateriaDTO.calcCondicoesAtuais.teDescFormulaCalculo}"></span>
+						</div>
+					</div>
+					<br />
+					<div class="row">
+						<div class="col-md-12">
+								<label for="condicoesFuturas" style="font-weight: bold;">
+									Condições futuras: 
+								</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12" style="display: inline-block;">
+							<label for="tooltipFuturas" style="font-weight: bold;">
+								Tooltip: 
+							</label>
+							<span th:text="${bateriaDTO.calcCondicoesFuturas.teFormulaCalculo}"></span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12"  style="display: inline-block;">
+							<label for="tooltip" style="font-weight: bold;"> 
+								Sistema:  
+							</label>
+							<span th:text="${bateriaDTO.calcCondicoesFuturas.teDescFormulaCalculo}"></span>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<br /> 
+						<input id="idButtonSalvar" type="button" class="btn btn-primary ericsson-blue btn-sm waves-effect waves-light"
+							onclick="bateriaController.salvar()" value="Salvar"/>
+						<input type="button" class="btn btn-primary ericsson-blue btn-sm waves-effect waves-light"
+							onclick="bateriaController.cancelar()" value="Cancelar" sssecurity-notevaluate/>
+					</div>
+				</div>
+			</div>
+			<div id="modalConfirmaCancelar">
+				<p>
+					<span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>
+						Deseja realmente sair? As informações editadas serão descartadas.
+				</p>
+			</div>
+		</section>
+		<br>
+	<div class="modalLoading">
+		<h5 style="text-align: center;vertical-align: middle; margin-top: 23%; font-weight: bold;">Processando a solicitação...</h5>
+	</div>
+
+	<script type="text/javascript" th:inline="javascript">
+		
+		bateriaController.initCadastro(/*[[${bateriaDTO}]]*/); 
+		
+		securityController.applySecurityConstraintsOnInformation();
+		
+		$(function() {
+			$('#modalConfirmaCancelar').dialog({
+				resizable: false,
+				height: "auto",
+				width: 400,
+				modal: true,
+				autoOpen: false,
+				buttons: {
+					"Sim": function() {
+						bateriaController.openPesquisaBateriaPage();
+						$(this).dialog("close");
+					},
+					"Não": function() {
+						$(this).dialog("close");
+					}
+				}
+			});
+		});
+	</script>
+
+	</div>
+</body>
